@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🧠 AI LOVE GEN • VR Ready • 2108</title>
+  <title>🧠 AI LOVE GEN • FIXED AUDIO</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * { margin: 0; padding: 0; }
@@ -42,6 +42,15 @@
     .btn-ai:hover { background: rgba(0,255,200,0.4); }
     .btn-vr { background: rgba(255,100,0,0.15); border-color: rgba(255,100,0,0.3); }
     .btn-vr:hover { background: rgba(255,100,0,0.4); }
+    .btn-start { 
+      background: rgba(255,50,50,0.3); border-color: rgba(255,50,50,0.5);
+      animation: pulse 1.5s infinite;
+    }
+    .btn-start:hover { background: rgba(255,50,50,0.7); }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,50,50,0.2); }
+      50% { box-shadow: 0 0 60px rgba(255,50,50,0.8); }
+    }
     #info {
       position: absolute; bottom: 20px; font-size: 0.8rem; opacity: 0.4;
       z-index: 10; pointer-events: none;
@@ -52,6 +61,12 @@
       font-size: 0.8rem; backdrop-filter: blur(8px); border: 1px solid rgba(255,100,0,0.3);
       pointer-events: none;
     }
+    #status-musik {
+      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background: rgba(0,0,0,0.6); padding: 8px 20px; border-radius: 20px;
+      font-size: 0.9rem; z-index: 15; backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1); pointer-events: none;
+    }
     @media (max-width: 600px) {
       h1 { font-size: 2.5rem; }
       .btn { padding: 10px 18px; font-size: 0.85rem; }
@@ -61,11 +76,13 @@
 <body>
 
 <div id="vr-badge">🥽 VR READY • Klik layar buat fullscreen</div>
+<div id="status-musik">⏸️ Musik: Belum mulai</div>
 
 <div id="ui">
   <h1>🧠 AI LOVE GEN</h1>
   <p>～ musik dibuat otomatis pake AI ～</p>
   <div class="btn-group">
+    <button class="btn btn-start" onclick="startAudio()">🎵 MULAI MUSIK (klik dulu!)</button>
     <button class="btn" onclick="gantiWarna('merah')">❤️ Merah</button>
     <button class="btn" onclick="gantiWarna('biru')">💙 Biru</button>
     <button class="btn" onclick="gantiWarna('hijau')">💚 Hijau</button>
@@ -79,7 +96,7 @@
 <div id="info">✨ GeminiXD • AI Generated Music • Tanpa Filter • Full 3D</div>
 
 <script>
-  // ========== 3D SETUP ==========
+  // ========== 3D SETUP (SAMA KAYAK SEBELUMNYA) ==========
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 1.5, 7);
@@ -88,10 +105,9 @@
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.xr.enabled = true; // VR MODE
+  renderer.xr.enabled = true;
   document.body.appendChild(renderer.domElement);
 
-  // Lampu
   const ambient = new THREE.AmbientLight(0x404060, 0.5);
   scene.add(ambient);
   const light1 = new THREE.PointLight(0xff4d6d, 1.2, 20);
@@ -104,7 +120,7 @@
   light3.position.set(0, 5, 0);
   scene.add(light3);
 
-  // ========== HATI 3D ==========
+  // HATI 3D
   const heartGroup = new THREE.Group();
   const matHati = new THREE.MeshStandardMaterial({
     color: 0xff2e7d, emissive: 0x550011, roughness: 0.2, metalness: 0.1, emissiveIntensity: 0.3
@@ -124,7 +140,7 @@
   glowSphere.position.set(0, 0.2, 0.5); heartGroup.add(glowSphere);
   scene.add(heartGroup);
 
-  // ========== BINTANG ==========
+  // BINTANG
   const starCount = 1000;
   const starGeo = new THREE.BufferGeometry();
   const starPos = new Float32Array(starCount * 3);
@@ -144,7 +160,7 @@
   const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
-  // ========== PARTIKEL ==========
+  // PARTIKEL LEDAKAN
   let loveParticles = [];
   function createLoveExplosion() {
     loveParticles.forEach(p => scene.remove(p)); loveParticles = [];
@@ -177,7 +193,7 @@
   }
   function loveExplosion() { createLoveExplosion(); light1.intensity = 3; setTimeout(() => { light1.intensity = 1.2; }, 300); }
 
-  // ========== HUJAN LOVE ==========
+  // HUJAN LOVE
   let rainParticles = [], rainActive = false;
   function createRainLove() {
     rainParticles.forEach(p => scene.remove(p)); rainParticles = [];
@@ -209,7 +225,7 @@
     else { createRainLove(); }
   }
 
-  // ========== KEMBANG API ==========
+  // KEMBANG API
   let fireworks = [];
   function createFirework() {
     const count = 150; const colors = [0xff2e7d,0xff6b9d,0xff1493,0xff69b4,0xffaa00,0x00ffaa,0xaa00ff];
@@ -245,7 +261,7 @@
     light1.intensity = 4; setTimeout(() => { light1.intensity = 1.2; }, 500);
   }
 
-  // ========== WARNA ==========
+  // WARNA
   function gantiWarna(warna) {
     let color, emissive;
     switch(warna) {
@@ -260,43 +276,66 @@
     light1.color.setHex(color);
   }
 
-  // ========== AI GENERATE MELODY ==========
-  let audioCtx = null, isPlaying = false, timerId = null, currentMelody = [];
+  // ========== AUDIO FIX ==========
+  let audioCtx = null;
+  let isPlaying = false;
+  let timerId = null;
+  let currentMelody = [];
+  let audioStarted = false;
+
+  function startAudio() {
+    if (audioStarted) {
+      // Kalo udah mulai, resume aja
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+        document.getElementById('status-musik').textContent = '▶️ Musik: Berjalan';
+      }
+      return;
+    }
+    
+    // Inisialisasi pertama
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioStarted = true;
+    document.getElementById('status-musik').textContent = '▶️ Musik: Berjalan';
+    generateAIMelody(); // Auto generate lagu pertama
+  }
 
   function generateAIMelody() {
-    // AI pake random dengan pola "pintar" — nada naik turun kayak lagu beneran
+    if (!audioStarted) {
+      alert('Klik tombol "MULAI MUSIK" dulu, gan! 🎵');
+      return;
+    }
+    
     const base = 440 + Math.random() * 200;
     const pattern = [];
     const length = 16 + Math.floor(Math.random() * 12);
     
     for (let i = 0; i < length; i++) {
-      // AI "belajar" dari pola: naik 2 step, turun 1, naik 3, dsb
       let step = 0;
       if (i % 3 === 0) step = 2;
       else if (i % 3 === 1) step = -1;
       else step = 3 + Math.floor(Math.random() * 2);
-      
       let freq = base + step * 30;
-      // Random tambahan biar variatif
       freq += (Math.random() - 0.5) * 20;
       pattern.push(Math.floor(freq));
     }
     
     currentMelody = pattern;
-    // Restart musik dengan melodi baru
     stopMusik();
     setTimeout(() => playMelody(), 100);
+    document.getElementById('status-musik').textContent = '🎵 Musik: AI Generated!';
   }
 
   function playMelody() {
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    audioCtx.resume();
+    if (!audioStarted || !audioCtx) return;
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
     isPlaying = true;
     
     let index = 0;
     function playNext() {
-      if (!isPlaying || index >= currentMelody.length) {
-        // Loop
+      if (!isPlaying || !audioStarted) {
         if (isPlaying) {
           index = 0;
           timerId = setTimeout(playNext, 200);
@@ -306,10 +345,9 @@
       
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      // Random waveform biar makin AI
       const waves = ['sine', 'square', 'sawtooth', 'triangle'];
       osc.type = waves[Math.floor(Math.random() * waves.length)];
-      osc.frequency.value = currentMelody[index];
+      osc.frequency.value = currentMelody[index % currentMelody.length];
       
       gain.gain.setValueAtTime(0.08 + Math.random() * 0.05, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3 + Math.random() * 0.2);
@@ -328,7 +366,6 @@
 
   function stopMusik() {
     if (timerId) { clearTimeout(timerId); timerId = null; }
-    if (audioCtx) audioCtx.suspend();
     isPlaying = false;
   }
 
@@ -341,7 +378,6 @@
         document.body.style.cursor = 'grab';
         navigator.xr.requestSession('immersive-vr').then(session => {
           renderer.xr.setSession(session);
-          // Geser kamera biar lebih immersive
           camera.position.set(0, 0, 0);
           camera.lookAt(0, 1, -3);
           document.getElementById('vr-badge').textContent = '🥽 VR ACTIVE • Gerakin kepala!';
@@ -362,7 +398,7 @@
     }
   }
 
-  // Fullscreen pake klik layar
+  // Fullscreen
   document.addEventListener('click', () => {
     if (!document.fullscreenElement && !vrActive) {
       document.body.requestFullscreen().catch(() => {});
@@ -399,15 +435,13 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  // ========== AUTO START EPIC ==========
+  // ========== AUTO START (tanpa musik dulu) ==========
   window.addEventListener('load', () => {
-    setTimeout(() => generateAIMelody(), 500);
-    setTimeout(() => loveExplosion(), 1000);
-    setTimeout(() => createRainLove(), 1500);
-    setTimeout(() => fireworks(), 2000);
-    setTimeout(() => fireworks(), 3000);
-    setTimeout(() => loveExplosion(), 4000);
+    setTimeout(() => loveExplosion(), 500);
+    setTimeout(() => createRainLove(), 1000);
+    setTimeout(() => fireworks(), 1500);
+    setTimeout(() => fireworks(), 2500);
   });
 </script>
 </body>
-</html>
+  </html>
