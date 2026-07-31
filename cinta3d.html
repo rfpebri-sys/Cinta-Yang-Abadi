@@ -159,28 +159,7 @@
       isPlaying = true;
 
       // bikin nada galau pake oscillator + gain
-      const now = audioCtx.currentTime;
-      // loop nada cinta (4 nada berulang)
-      const notes = [523, 587, 659, 784]; // C5, D5, E5, G5
-      let index = 0;
-      function playNote() {
-        if (!isPlaying) return;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = notes[index % notes.length];
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.6);
-        index++;
-        // recurse tiap 0.5 detik
-        setTimeout(playNote, 500);
-      }
-      playNote();
-    }
+      <body><audio id="Hindia - everything u are.mp3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
 
     btn.addEventListener('click', playGalauTune);
 
