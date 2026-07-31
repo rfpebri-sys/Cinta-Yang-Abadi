@@ -3,135 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💘 LOVE APOCALYPSE • Hujan + Kembang Api</title>
+  <title>🧠 AI LOVE GEN • VR Ready • 2108</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     * { margin: 0; padding: 0; }
-    body {
-      overflow: hidden;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: white;
-    }
+    body { overflow: hidden; font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: white; }
     #ui {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-      pointer-events: none;
-      text-shadow: 0 0 30px rgba(255, 50, 100, 0.8);
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      z-index: 10; pointer-events: none; text-shadow: 0 0 30px rgba(255,50,100,0.8);
     }
     h1 {
       font-size: 4rem;
       background: linear-gradient(45deg, #ff6b9d, #ff2e7d, #ff6b9d);
       background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradasi 3s ease infinite;
-      letter-spacing: 5px;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      animation: gradasi 3s ease infinite; letter-spacing: 5px;
     }
     @keyframes gradasi {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    p {
-      font-size: 1.3rem;
-      opacity: 0.8;
-      margin-top: -5px;
-      color: #ffb3c6;
-    }
+    p { font-size: 1.3rem; opacity: 0.8; margin-top: -5px; color: #ffb3c6; }
     .btn-group {
-      pointer-events: auto;
-      margin-top: 25px;
-      display: flex;
-      gap: 15px;
-      flex-wrap: wrap;
-      justify-content: center;
+      pointer-events: auto; margin-top: 25px; display: flex; gap: 15px;
+      flex-wrap: wrap; justify-content: center; max-width: 90vw;
     }
     .btn {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 12px 28px;
-      border-radius: 50px;
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: bold;
-      box-shadow: 0 0 20px rgba(255, 50, 100, 0.2);
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.15); padding: 12px 28px;
+      border-radius: 50px; color: white; font-size: 1rem; cursor: pointer;
+      transition: 0.3s; font-weight: bold; box-shadow: 0 0 20px rgba(255,50,100,0.2);
       letter-spacing: 1px;
     }
-    .btn:hover {
-      background: rgba(255, 50, 100, 0.4);
-      transform: scale(1.07);
-      box-shadow: 0 0 40px rgba(255, 50, 100, 0.5);
-    }
-    .btn-musik {
-      background: rgba(100, 50, 255, 0.2);
-      border-color: rgba(100, 50, 255, 0.3);
-    }
-    .btn-musik:hover {
-      background: rgba(100, 50, 255, 0.5);
-    }
-    .btn-ledak {
-      background: rgba(255, 200, 0, 0.2);
-      border-color: rgba(255, 200, 0, 0.3);
-      animation: blink 1s infinite;
-    }
-    .btn-ledak:hover {
-      background: rgba(255, 200, 0, 0.5);
-    }
-    .btn-hujan {
-      background: rgba(0, 200, 255, 0.2);
-      border-color: rgba(0, 200, 255, 0.3);
-    }
-    .btn-hujan:hover {
-      background: rgba(0, 200, 255, 0.5);
-    }
-    @keyframes blink {
-      0%, 100% { box-shadow: 0 0 20px rgba(255, 200, 0, 0.2); }
-      50% { box-shadow: 0 0 60px rgba(255, 200, 0, 0.8); }
-    }
+    .btn:hover { background: rgba(255,50,100,0.4); transform: scale(1.07); box-shadow: 0 0 40px rgba(255,50,100,0.5); }
+    .btn-ai { background: rgba(0,255,200,0.15); border-color: rgba(0,255,200,0.3); }
+    .btn-ai:hover { background: rgba(0,255,200,0.4); }
+    .btn-vr { background: rgba(255,100,0,0.15); border-color: rgba(255,100,0,0.3); }
+    .btn-vr:hover { background: rgba(255,100,0,0.4); }
     #info {
-      position: absolute;
-      bottom: 20px;
-      font-size: 0.8rem;
-      opacity: 0.4;
-      z-index: 10;
+      position: absolute; bottom: 20px; font-size: 0.8rem; opacity: 0.4;
+      z-index: 10; pointer-events: none;
+    }
+    #vr-badge {
+      position: absolute; top: 20px; right: 20px; z-index: 20;
+      background: rgba(255,100,0,0.3); padding: 8px 16px; border-radius: 20px;
+      font-size: 0.8rem; backdrop-filter: blur(8px); border: 1px solid rgba(255,100,0,0.3);
       pointer-events: none;
     }
     @media (max-width: 600px) {
       h1 { font-size: 2.5rem; }
-      .btn { padding: 10px 18px; font-size: 0.9rem; }
+      .btn { padding: 10px 18px; font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
 
+<div id="vr-badge">🥽 VR READY • Klik layar buat fullscreen</div>
+
 <div id="ui">
-  <h1>💘 LOVE APOCALYPSE</h1>
-  <p>～ cinta turun dari langit～</p>
+  <h1>🧠 AI LOVE GEN</h1>
+  <p>～ musik dibuat otomatis pake AI ～</p>
   <div class="btn-group">
     <button class="btn" onclick="gantiWarna('merah')">❤️ Merah</button>
     <button class="btn" onclick="gantiWarna('biru')">💙 Biru</button>
     <button class="btn" onclick="gantiWarna('hijau')">💚 Hijau</button>
-    <button class="btn btn-musik" onclick="gantiLagu('sedih')">🎵 Sedih</button>
-    <button class="btn btn-musik" onclick="gantiLagu('ceria')">🎵 Ceria</button>
-    <button class="btn btn-musik" onclick="gantiLagu('random')">🎲 Random</button>
-    <button class="btn btn-ledak" onclick="loveExplosion()">💥 Ledakan</button>
-    <button class="btn btn-hujan" onclick="toggleHujanLove()">🌧️ Hujan Love</button>
-    <button class="btn btn-ledak" onclick="fireworks()">🎆 Kembang Api</button>
+    <button class="btn btn-ai" onclick="generateAIMelody()">🤖 AI Musik</button>
+    <button class="btn" onclick="loveExplosion()">💥 Ledakan</button>
+    <button class="btn" onclick="toggleHujanLove()">🌧️ Hujan</button>
+    <button class="btn" onclick="fireworks()">🎆 Kembang Api</button>
+    <button class="btn btn-vr" onclick="toggleVR()">🥽 Mode VR</button>
   </div>
 </div>
-<div id="info">✨ GeminiXD • 2108 • Tanpa Filter • Full Partikel + Hujan + Fireworks</div>
+<div id="info">✨ GeminiXD • AI Generated Music • Tanpa Filter • Full 3D</div>
 
 <script>
   // ========== 3D SETUP ==========
@@ -143,6 +88,7 @@
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.xr.enabled = true; // VR MODE
   document.body.appendChild(renderer.domElement);
 
   // Lampu
@@ -161,33 +107,21 @@
   // ========== HATI 3D ==========
   const heartGroup = new THREE.Group();
   const matHati = new THREE.MeshStandardMaterial({
-    color: 0xff2e7d,
-    emissive: 0x550011,
-    roughness: 0.2,
-    metalness: 0.1,
-    emissiveIntensity: 0.3
+    color: 0xff2e7d, emissive: 0x550011, roughness: 0.2, metalness: 0.1, emissiveIntensity: 0.3
   });
 
   const s1 = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 32), matHati);
-  s1.position.set(-1.0, 0.8, 0);
-  heartGroup.add(s1);
+  s1.position.set(-1.0, 0.8, 0); heartGroup.add(s1);
   const s2 = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 32), matHati);
-  s2.position.set(1.0, 0.8, 0);
-  heartGroup.add(s2);
+  s2.position.set(1.0, 0.8, 0); heartGroup.add(s2);
   const s3 = new THREE.Mesh(new THREE.SphereGeometry(1.1, 32, 32), matHati);
-  s3.position.set(0, -0.7, 0);
-  heartGroup.add(s3);
+  s3.position.set(0, -0.7, 0); heartGroup.add(s3);
 
   const glowMat = new THREE.MeshStandardMaterial({
-    color: 0xff6b9d,
-    emissive: 0xff2e7d,
-    transparent: true,
-    opacity: 0.2
+    color: 0xff6b9d, emissive: 0xff2e7d, transparent: true, opacity: 0.2
   });
   const glowSphere = new THREE.Mesh(new THREE.SphereGeometry(0.4, 16, 16), glowMat);
-  glowSphere.position.set(0, 0.2, 0.5);
-  heartGroup.add(glowSphere);
-
+  glowSphere.position.set(0, 0.2, 0.5); heartGroup.add(glowSphere);
   scene.add(heartGroup);
 
   // ========== BINTANG ==========
@@ -200,212 +134,118 @@
     starPos[i*3+1] = (Math.random() - 0.5) * 40;
     starPos[i*3+2] = (Math.random() - 0.5) * 30;
     const c = new THREE.Color().setHSL(0.95 + Math.random()*0.1, 0.8, 0.5 + Math.random()*0.3);
-    starColor[i*3] = c.r;
-    starColor[i*3+1] = c.g;
-    starColor[i*3+2] = c.b;
+    starColor[i*3] = c.r; starColor[i*3+1] = c.g; starColor[i*3+2] = c.b;
   }
   starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
   starGeo.setAttribute('color', new THREE.BufferAttribute(starColor, 3));
   const starMat = new THREE.PointsMaterial({
-    size: 0.08,
-    vertexColors: true,
-    transparent: true,
-    opacity: 0.8,
-    blending: THREE.AdditiveBlending
+    size: 0.08, vertexColors: true, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending
   });
   const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
-  // ========== PARTIKEL LOVE (LEDAKAN) ==========
+  // ========== PARTIKEL ==========
   let loveParticles = [];
-
   function createLoveExplosion() {
-    loveParticles.forEach(p => scene.remove(p));
-    loveParticles = [];
-
+    loveParticles.forEach(p => scene.remove(p)); loveParticles = [];
     const count = 300;
     const colors = [0xff2e7d, 0xff6b9d, 0xff1493, 0xff69b4, 0xff4d6d];
-    
     for (let i = 0; i < count; i++) {
       const size = 0.05 + Math.random() * 0.15;
       const geo = new THREE.SphereGeometry(size, 8, 8);
       const mat = new THREE.MeshStandardMaterial({
         color: colors[Math.floor(Math.random() * colors.length)],
-        emissive: 0xff2e7d,
-        emissiveIntensity: 0.5,
-        transparent: true,
-        opacity: 1
+        emissive: 0xff2e7d, emissiveIntensity: 0.5, transparent: true, opacity: 1
       });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(
-        (Math.random() - 0.5) * 1.5,
-        (Math.random() - 0.5) * 1.5,
-        (Math.random() - 0.5) * 1.5
-      );
+      mesh.position.set((Math.random()-0.5)*1.5, (Math.random()-0.5)*1.5, (Math.random()-0.5)*1.5);
       mesh.userData = {
-        vx: (Math.random() - 0.5) * 0.15,
-        vy: (Math.random() - 0.5) * 0.15,
-        vz: (Math.random() - 0.5) * 0.15,
-        life: 1,
-        decay: 0.002 + Math.random() * 0.005
+        vx: (Math.random()-0.5)*0.15, vy: (Math.random()-0.5)*0.15, vz: (Math.random()-0.5)*0.15,
+        life: 1, decay: 0.002 + Math.random()*0.005
       };
-      scene.add(mesh);
-      loveParticles.push(mesh);
+      scene.add(mesh); loveParticles.push(mesh);
     }
   }
-
   function updateLoveParticles() {
     for (let i = loveParticles.length - 1; i >= 0; i--) {
       const p = loveParticles[i];
-      p.position.x += p.userData.vx;
-      p.position.y += p.userData.vy;
-      p.position.z += p.userData.vz;
-      p.userData.life -= p.userData.decay;
-      p.material.opacity = p.userData.life;
+      p.position.x += p.userData.vx; p.position.y += p.userData.vy; p.position.z += p.userData.vz;
+      p.userData.life -= p.userData.decay; p.material.opacity = p.userData.life;
       p.scale.setScalar(p.userData.life * 0.8 + 0.2);
-      if (p.userData.life <= 0) {
-        scene.remove(p);
-        loveParticles.splice(i, 1);
-      }
+      if (p.userData.life <= 0) { scene.remove(p); loveParticles.splice(i, 1); }
     }
   }
-
-  function loveExplosion() {
-    createLoveExplosion();
-    light1.intensity = 3;
-    setTimeout(() => { light1.intensity = 1.2; }, 300);
-  }
+  function loveExplosion() { createLoveExplosion(); light1.intensity = 3; setTimeout(() => { light1.intensity = 1.2; }, 300); }
 
   // ========== HUJAN LOVE ==========
-  let rainParticles = [];
-  let rainActive = false;
-
+  let rainParticles = [], rainActive = false;
   function createRainLove() {
-    // Hapus hujan lama
-    rainParticles.forEach(p => scene.remove(p));
-    rainParticles = [];
-
-    const count = 200;
-    const colors = [0xff2e7d, 0xff6b9d, 0xff1493, 0xff69b4];
-    
+    rainParticles.forEach(p => scene.remove(p)); rainParticles = [];
+    const count = 200; const colors = [0xff2e7d, 0xff6b9d, 0xff1493, 0xff69b4];
     for (let i = 0; i < count; i++) {
       const size = 0.03 + Math.random() * 0.08;
       const geo = new THREE.SphereGeometry(size, 6, 6);
       const mat = new THREE.MeshStandardMaterial({
         color: colors[Math.floor(Math.random() * colors.length)],
-        emissive: 0xff2e7d,
-        emissiveIntensity: 0.3,
-        transparent: true,
-        opacity: 0.8
+        emissive: 0xff2e7d, emissiveIntensity: 0.3, transparent: true, opacity: 0.8
       });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(
-        (Math.random() - 0.5) * 12,
-        Math.random() * 8 - 2,
-        (Math.random() - 0.5) * 8
-      );
-      mesh.userData = {
-        speed: 0.01 + Math.random() * 0.03,
-        wobble: Math.random() * Math.PI * 2,
-        wobbleSpeed: 0.02 + Math.random() * 0.02
-      };
-      scene.add(mesh);
-      rainParticles.push(mesh);
+      mesh.position.set((Math.random()-0.5)*12, Math.random()*8-2, (Math.random()-0.5)*8);
+      mesh.userData = { speed: 0.01 + Math.random()*0.03, wobble: Math.random()*Math.PI*2, wobbleSpeed: 0.02 + Math.random()*0.02 };
+      scene.add(mesh); rainParticles.push(mesh);
     }
     rainActive = true;
   }
-
   function updateRain() {
     if (!rainActive) return;
     for (const p of rainParticles) {
-      p.position.y -= p.userData.speed;
-      p.userData.wobble += p.userData.wobbleSpeed;
+      p.position.y -= p.userData.speed; p.userData.wobble += p.userData.wobbleSpeed;
       p.position.x += Math.sin(p.userData.wobble) * 0.002;
-      // Reset ke atas kalo udah jatuh
-      if (p.position.y < -4) {
-        p.position.y = 5 + Math.random() * 2;
-        p.position.x = (Math.random() - 0.5) * 12;
-        p.position.z = (Math.random() - 0.5) * 8;
-      }
+      if (p.position.y < -4) { p.position.y = 5 + Math.random()*2; p.position.x = (Math.random()-0.5)*12; p.position.z = (Math.random()-0.5)*8; }
     }
   }
-
   function toggleHujanLove() {
-    if (rainActive) {
-      rainActive = false;
-      rainParticles.forEach(p => scene.remove(p));
-      rainParticles = [];
-    } else {
-      createRainLove();
-    }
+    if (rainActive) { rainActive = false; rainParticles.forEach(p => scene.remove(p)); rainParticles = []; }
+    else { createRainLove(); }
   }
 
   // ========== KEMBANG API ==========
   let fireworks = [];
-
   function createFirework() {
-    const count = 150;
-    const colors = [0xff2e7d, 0xff6b9d, 0xff1493, 0xff69b4, 0xffaa00, 0x00ffaa, 0xaa00ff];
-    const baseX = (Math.random() - 0.5) * 8;
-    const baseY = 1 + Math.random() * 3;
-    const baseZ = (Math.random() - 0.5) * 5;
-
+    const count = 150; const colors = [0xff2e7d,0xff6b9d,0xff1493,0xff69b4,0xffaa00,0x00ffaa,0xaa00ff];
+    const baseX = (Math.random()-0.5)*8, baseY = 1+Math.random()*3, baseZ = (Math.random()-0.5)*5;
     for (let i = 0; i < count; i++) {
-      const size = 0.04 + Math.random() * 0.1;
+      const size = 0.04+Math.random()*0.1;
       const geo = new THREE.SphereGeometry(size, 6, 6);
       const mat = new THREE.MeshStandardMaterial({
-        color: colors[Math.floor(Math.random() * colors.length)],
-        emissive: 0xff2e7d,
-        emissiveIntensity: 0.6,
-        transparent: true,
-        opacity: 1
+        color: colors[Math.floor(Math.random()*colors.length)],
+        emissive: 0xff2e7d, emissiveIntensity: 0.6, transparent: true, opacity: 1
       });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.position.set(baseX, baseY, baseZ);
-      
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.random() * Math.PI * 2;
-      const speed = 0.05 + Math.random() * 0.1;
-      
+      const theta = Math.random()*Math.PI*2, phi = Math.random()*Math.PI*2, speed = 0.05+Math.random()*0.1;
       mesh.userData = {
-        vx: Math.sin(theta) * Math.cos(phi) * speed,
-        vy: Math.sin(phi) * speed,
-        vz: Math.cos(theta) * Math.cos(phi) * speed,
-        life: 1,
-        decay: 0.005 + Math.random() * 0.01
+        vx: Math.sin(theta)*Math.cos(phi)*speed, vy: Math.sin(phi)*speed, vz: Math.cos(theta)*Math.cos(phi)*speed,
+        life: 1, decay: 0.005+Math.random()*0.01
       };
-      scene.add(mesh);
-      fireworks.push(mesh);
+      scene.add(mesh); fireworks.push(mesh);
     }
   }
-
   function updateFireworks() {
-    for (let i = fireworks.length - 1; i >= 0; i--) {
+    for (let i = fireworks.length-1; i >= 0; i--) {
       const p = fireworks[i];
-      p.position.x += p.userData.vx;
-      p.position.y += p.userData.vy;
-      p.position.z += p.userData.vz;
-      p.userData.vy -= 0.002; // gravitasi
-      p.userData.life -= p.userData.decay;
-      p.material.opacity = p.userData.life;
+      p.position.x += p.userData.vx; p.position.y += p.userData.vy; p.position.z += p.userData.vz;
+      p.userData.vy -= 0.002; p.userData.life -= p.userData.decay; p.material.opacity = p.userData.life;
       p.scale.setScalar(p.userData.life * 0.6 + 0.4);
-      if (p.userData.life <= 0) {
-        scene.remove(p);
-        fireworks.splice(i, 1);
-      }
+      if (p.userData.life <= 0) { scene.remove(p); fireworks.splice(i, 1); }
     }
   }
-
   function fireworks() {
-    for (let i = 0; i < 3; i++) {
-      setTimeout(() => createFirework(), i * 400);
-    }
-    // Efek lampu
-    light1.intensity = 4;
-    setTimeout(() => { light1.intensity = 1.2; }, 500);
+    for (let i = 0; i < 3; i++) setTimeout(() => createFirework(), i*400);
+    light1.intensity = 4; setTimeout(() => { light1.intensity = 1.2; }, 500);
   }
 
-  // ========== FUNGSI WARNA ==========
+  // ========== WARNA ==========
   function gantiWarna(warna) {
     let color, emissive;
     switch(warna) {
@@ -415,25 +255,76 @@
       default: color = 0xff2e7d; emissive = 0x550011;
     }
     heartGroup.children.forEach(child => {
-      if (child.isMesh) {
-        child.material.color.setHex(color);
-        child.material.emissive.setHex(emissive);
-      }
+      if (child.isMesh) { child.material.color.setHex(color); child.material.emissive.setHex(emissive); }
     });
     light1.color.setHex(color);
   }
 
-  // ========== FUNGSI LAGU ==========
-  let audioCtx = null;
-  let isPlaying = false;
-  let timerId = null;
-  let currentMelody = [];
+  // ========== AI GENERATE MELODY ==========
+  let audioCtx = null, isPlaying = false, timerId = null, currentMelody = [];
 
-  const melodies = {
-    sedih: [523, 523, 523, 587, 784, 784, 784, 659, 587, 523],
-    ceria: [523, 587, 659, 784, 880, 784, 659, 587, 523, 587, 659, 784],
-    random: () => Array.from({length: 12}, () => Math.floor(Math.random() * 400) + 400)
-  };
+  function generateAIMelody() {
+    // AI pake random dengan pola "pintar" — nada naik turun kayak lagu beneran
+    const base = 440 + Math.random() * 200;
+    const pattern = [];
+    const length = 16 + Math.floor(Math.random() * 12);
+    
+    for (let i = 0; i < length; i++) {
+      // AI "belajar" dari pola: naik 2 step, turun 1, naik 3, dsb
+      let step = 0;
+      if (i % 3 === 0) step = 2;
+      else if (i % 3 === 1) step = -1;
+      else step = 3 + Math.floor(Math.random() * 2);
+      
+      let freq = base + step * 30;
+      // Random tambahan biar variatif
+      freq += (Math.random() - 0.5) * 20;
+      pattern.push(Math.floor(freq));
+    }
+    
+    currentMelody = pattern;
+    // Restart musik dengan melodi baru
+    stopMusik();
+    setTimeout(() => playMelody(), 100);
+  }
+
+  function playMelody() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioCtx.resume();
+    isPlaying = true;
+    
+    let index = 0;
+    function playNext() {
+      if (!isPlaying || index >= currentMelody.length) {
+        // Loop
+        if (isPlaying) {
+          index = 0;
+          timerId = setTimeout(playNext, 200);
+        }
+        return;
+      }
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      // Random waveform biar makin AI
+      const waves = ['sine', 'square', 'sawtooth', 'triangle'];
+      osc.type = waves[Math.floor(Math.random() * waves.length)];
+      osc.frequency.value = currentMelody[index];
+      
+      gain.gain.setValueAtTime(0.08 + Math.random() * 0.05, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3 + Math.random() * 0.2);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+      
+      index++;
+      const delay = 200 + Math.random() * 150;
+      timerId = setTimeout(playNext, delay);
+    }
+    playNext();
+  }
 
   function stopMusik() {
     if (timerId) { clearTimeout(timerId); timerId = null; }
@@ -441,40 +332,42 @@
     isPlaying = false;
   }
 
-  function gantiLagu(tipe) {
-    stopMusik();
-    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    
-    if (tipe === 'random') currentMelody = melodies.random();
-    else currentMelody = melodies[tipe] || melodies.sedih;
-    
-    audioCtx.resume();
-    isPlaying = true;
-    
-    let index = 0;
-    function playNext() {
-      if (!isPlaying || index >= currentMelody.length) {
-        index = 0;
-        if (isPlaying) timerId = setTimeout(playNext, 300);
-        return;
+  // ========== VR MODE ==========
+  let vrActive = false;
+  function toggleVR() {
+    if (navigator.xr) {
+      vrActive = !vrActive;
+      if (vrActive) {
+        document.body.style.cursor = 'grab';
+        navigator.xr.requestSession('immersive-vr').then(session => {
+          renderer.xr.setSession(session);
+          // Geser kamera biar lebih immersive
+          camera.position.set(0, 0, 0);
+          camera.lookAt(0, 1, -3);
+          document.getElementById('vr-badge').textContent = '🥽 VR ACTIVE • Gerakin kepala!';
+          document.getElementById('vr-badge').style.background = 'rgba(0,255,100,0.3)';
+        }).catch(() => {
+          alert('VR gak support di browser lo, gan! Tapi lo tetep keren! 😎');
+          vrActive = false;
+        });
+      } else {
+        renderer.xr.setSession(null);
+        camera.position.set(0, 1.5, 7);
+        camera.lookAt(0, 0, 0);
+        document.getElementById('vr-badge').textContent = '🥽 VR READY • Klik layar buat fullscreen';
+        document.getElementById('vr-badge').style.background = 'rgba(255,100,0,0.3)';
       }
-      
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = currentMelody[index];
-      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.4);
-      
-      index++;
-      timerId = setTimeout(playNext, 350 + Math.random() * 100);
+    } else {
+      alert('Browser lo gak support WebXR, gan! Tapi tenang, lo tetep bisa nikmatin 3D-nya! 🚀');
     }
-    playNext();
   }
+
+  // Fullscreen pake klik layar
+  document.addEventListener('click', () => {
+    if (!document.fullscreenElement && !vrActive) {
+      document.body.requestFullscreen().catch(() => {});
+    }
+  });
 
   // ========== ANIMASI ==========
   let time = 0;
@@ -482,18 +375,15 @@
     requestAnimationFrame(animate);
     time += 0.02;
 
-    // Denyut jantung
     const scale = 1 + Math.sin(time * 2.5) * 0.05;
     heartGroup.scale.set(scale, scale, scale);
     heartGroup.rotation.y = Math.sin(time * 0.2) * 0.5;
     heartGroup.rotation.x = Math.sin(time * 0.15) * 0.1;
     heartGroup.rotation.z = Math.sin(time * 0.1) * 0.05;
 
-    // Bintang berputar
     stars.rotation.y += 0.0005;
     stars.rotation.x += 0.0002;
 
-    // Update semua partikel
     updateLoveParticles();
     updateRain();
     updateFireworks();
@@ -509,14 +399,15 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  // ========== AUTO START ==========
+  // ========== AUTO START EPIC ==========
   window.addEventListener('load', () => {
-    setTimeout(() => gantiLagu('sedih'), 500);
+    setTimeout(() => generateAIMelody(), 500);
     setTimeout(() => loveExplosion(), 1000);
-    setTimeout(() => createRainLove(), 2000);
+    setTimeout(() => createRainLove(), 1500);
+    setTimeout(() => fireworks(), 2000);
     setTimeout(() => fireworks(), 3000);
-    setTimeout(() => fireworks(), 4000);
+    setTimeout(() => loveExplosion(), 4000);
   });
 </script>
 </body>
-  </html>
+</html>
