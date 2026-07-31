@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💔 Cinta & 3D • GemX</title>
+  <!-- Three.js buat 3D -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background: #0a0a0a;
+      color: white;
+    }
+    #overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* biar klik tembus ke canvas 3D */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 10;
+      text-shadow: 0 0 30px rgba(255, 80, 120, 0.8);
+    }
+    h1 {
+      font-size: 4rem;
+      margin: 0;
+      letter-spacing: 4px;
+      background: linear-gradient(45deg, #ff6b9d, #ff2e7d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    p {
+      font-size: 1.5rem;
+      opacity: 0.9;
+      margin-top: -10px;
+      font-style: italic;
+      color: #ffb3c6;
+    }
+    #music-control {
+      margin-top: 30px;
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 12px 28px;
+      border-radius: 60px;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 40px rgba(255, 50, 100, 0.3);
+    }
+    #music-control:hover {
+      background: rgba(255, 50, 100, 0.4);
+      transform: scale(1.05);
+    }
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px #ff2e7d; }
+      100% { text-shadow: 0 0 40px #ff6b9d, 0 0 80px #ff2e7d; }
+    }
+    /* biar responsive */
+    @media (max-width: 600px) {
+      h1 { font-size: 2.5rem; }
+      p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Overlay teks + tombol musik -->
+  <div id="overlay">
+    <h1>💘 CINTA GILA</h1>
+    <p>～ getar hati, getar 3D ～</p>
+    <button id="music-control">🎵 Putar Lagu Galau</button>
+  </div>
+
+  <script>
+    // ================ 3D PART ================
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 2, 8);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    document.body.appendChild(renderer.domElement);
+
+    // Lampu ambient + titik
+    const ambient = new THREE.AmbientLight(0x404060);
+    scene.add(ambient);
+    const light = new THREE.PointLight(0xff4d6d, 1, 20);
+    light.position.set(3, 5, 5);
+    scene.add(light);
+    const light2 = new THREE.PointLight(0x4d6dff, 0.6, 20);
+    light2.position.set(-4, 3, 4);
+    scene.add(light2);
+
+    // Bikin hati 3D pake Torus + bentuk custom (pakai banyak sphere biar jadi hati)
+    const heartGroup = new THREE.Group();
+
+    // 2 bola atas
+    const sphereMat = new THREE.MeshStandardMaterial({ color: 0xff2e7d, emissive: 0x440011, roughness: 0.2, metalness: 0.1 });
+    const s1 = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 32), sphereMat);
+    s1.position.set(-1, 0.8, 0);
+    heartGroup.add(s1);
+    const s2 = new THREE.Mesh(new THREE.SphereGeometry(0.9, 32, 32), sphereMat);
+    s2.position.set(1, 0.8, 0);
+    heartGroup.add(s2);
+
+    // bola bawah (ujung hati)
+    const s3 = new THREE.Mesh(new THREE.SphereGeometry(1.1, 32, 32), sphereMat);
+    s3.position.set(0, -0.7, 0);
+    heartGroup.add(s3);
+
+    // tambahan efek "berdenyut" dikit
+    const heartPivot = new THREE.Group();
+    heartPivot.add(heartGroup);
+    scene.add(heartPivot);
+
+    // bintang-bintang kecil bertebaran (partikel)
+    const starsGeo = new THREE.BufferGeometry();
+    const starCount = 800;
+    const pos = new Float32Array(starCount * 3);
+    for (let i = 0; i < starCount * 3; i++) {
+      pos[i] = (Math.random() - 0.5) * 60;
+    }
+    starsGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.08, transparent: true, opacity: 0.7 });
+    const stars = new THREE.Points(starsGeo, starsMat);
+    scene.add(stars);
+
+    // ================ MUSIK (pake Web Audio API - nada sederhana) ================
+    let audioCtx = null;
+    let isPlaying = false;
+    const btn = document.getElementById('music-control');
+
+    function playGalauTune() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (isPlaying) {
+        // pause
+        audioCtx.suspend();
+        btn.textContent = '🎵 Putar Lagu Galau';
+        isPlaying = false;
+        return;
+      }
+      audioCtx.resume();
+      btn.textContent = '⏸️ Jeda Galau';
+      isPlaying = true;
+
+      // bikin nada galau pake oscillator + gain
+      const now = audioCtx.currentTime;
+      // loop nada cinta (4 nada berulang)
+      const notes = [523, 587, 659, 784]; // C5, D5, E5, G5
+      let index = 0;
+      function playNote() {
+        if (!isPlaying) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = notes[index % notes.length];
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.6);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.6);
+        index++;
+        // recurse tiap 0.5 detik
+        setTimeout(playNote, 500);
+      }
+      playNote();
+    }
+
+    btn.addEventListener('click', playGalauTune);
+
+    // ================ ANIMASI ================
+    let time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.02;
+
+      // Hati berdenyut + muter pelan
+      const scale = 1 + Math.sin(time * 2) * 0.04;
+      heartPivot.scale.set(scale, scale, scale);
+      heartPivot.rotation.y = Math.sin(time * 0.3) * 0.3;
+      heartPivot.rotation.x = Math.sin(time * 0.2) * 0.1;
+
+      // bintang gerak pelan
+      stars.rotation.y += 0.0002;
+      stars.rotation.x += 0.0001;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // ================ RESIZE ================
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
